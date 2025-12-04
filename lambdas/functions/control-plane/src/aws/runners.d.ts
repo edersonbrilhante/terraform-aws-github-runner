@@ -47,5 +47,5 @@ export interface RunnerInputParameters {
   amiIdSsmParameterName?: string;
   tracingEnabled?: boolean;
   onDemandFailoverOnError?: string[];
-  scaleErrors: string[];
+  customScaleErrors?: string[];
 }
