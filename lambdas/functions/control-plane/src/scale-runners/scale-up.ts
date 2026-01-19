@@ -307,16 +307,13 @@ export async function scaleUp(payloads: ActionRequestMessageSQS[]): Promise<stri
     let key = enableOrgLevel ? payload.repositoryOwner : `${payload.repositoryOwner}/${payload.repositoryName}`;
 
     if (dynamicEc2ConfigEnabled && labels?.length) {
-      const requestedDynamicEc2Config = labels
-        .find(l => l.startsWith('ghr-ec2-'))
-        ?.slice('ghr-ec2-'.length);      
+      const requestedDynamicEc2Config = labels.find((l) => l.startsWith('ghr-ec2-'))?.slice('ghr-ec2-'.length);
 
       if (requestedDynamicEc2Config) {
         const ec2Hash = ec2LabelsHash(labels);
         key = `${key}/${ec2Hash}`;
       }
     }
-
 
     let entry = validMessages.get(key);
 
@@ -356,10 +353,11 @@ export async function scaleUp(payloads: ActionRequestMessageSQS[]): Promise<stri
     let scaleUp = 0;
 
     if (messages.length > 0 && dynamicEc2ConfigEnabled) {
-      const requestedInstanceType = messages[0].labels?.find(label => label.startsWith('ghr-ec2-instance-type'))?.replace('ghr-ec2-instance-type', '');          
+      const requestedInstanceType = messages[0].labels
+        ?.find((label) => label.startsWith('ghr-ec2-instance-type'))
+        ?.replace('ghr-ec2-instance-type', '');
       instanceTypes = requestedInstanceType ? [requestedInstanceType] : instanceTypes;
-    } 
-
+    }
 
     for (const message of messages) {
       const messageLogger = logger.createChild({
@@ -378,7 +376,7 @@ export async function scaleUp(payloads: ActionRequestMessageSQS[]): Promise<stri
         continue;
       }
 
-      scaleUp++;      
+      scaleUp++;
     }
 
     if (scaleUp === 0) {
@@ -605,8 +603,8 @@ function ec2LabelsHash(labels: string[]): string {
   const prefix = 'ghr-ec2-';
 
   const input = labels
-    .filter(l => l.startsWith(prefix))
-    .sort()               // ensure deterministic hash
+    .filter((l) => l.startsWith(prefix))
+    .sort() // ensure deterministic hash
     .join('|');
 
   let hash = 0;
