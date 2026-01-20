@@ -9,7 +9,6 @@ import { Ec2OverrideConfig, RunnerInputParameters } from './../aws/runners.d';
 import { metricGitHubAppRateLimit } from '../github/rate-limit';
 import {
   _InstanceType,
-  Affinity,
   Tenancy,
   VolumeType,
   CpuManufacturer,
@@ -21,22 +20,22 @@ import {
   AcceleratorName,
   LocalStorage,
   LocalStorageType,
-  type Placement,
-  type BaselinePerformanceFactorsRequest,
-  type FleetEbsBlockDeviceRequest,
-  type CpuPerformanceFactorRequest,
-  type PerformanceFactorReferenceRequest,
-  type FleetBlockDeviceMappingRequest,
-  type InstanceRequirementsRequest,
-  type VCpuCountRangeRequest,
-  type MemoryMiBRequest,
-  type MemoryGiBPerVCpuRequest,
-  type AcceleratorCountRequest,
-  type AcceleratorTotalMemoryMiBRequest,
-  type NetworkInterfaceCountRequest,
-  type NetworkBandwidthGbpsRequest,
-  type TotalLocalStorageGBRequest,
-  type BaselineEbsBandwidthMbpsRequest,
+  Placement,
+  BaselinePerformanceFactorsRequest,
+  FleetEbsBlockDeviceRequest,
+  CpuPerformanceFactorRequest,
+  PerformanceFactorReferenceRequest,
+  FleetBlockDeviceMappingRequest,
+  InstanceRequirementsRequest,
+  VCpuCountRangeRequest,
+  MemoryMiBRequest,
+  MemoryGiBPerVCpuRequest,
+  AcceleratorCountRequest,
+  AcceleratorTotalMemoryMiBRequest,
+  NetworkInterfaceCountRequest,
+  NetworkBandwidthGbpsRequest,
+  TotalLocalStorageGBRequest,
+  BaselineEbsBandwidthMbpsRequest,
 } from '@aws-sdk/client-ec2';
 
 const logger = createChildLogger('scale-up');
@@ -745,7 +744,7 @@ async function createJitConfig(githubRunnerConfig: CreateGitHubRunnerConfig, ins
  */
 export function parseEc2OverrideConfig(labels: string[]): Ec2OverrideConfig | undefined {
   const ec2Labels = labels.filter((l) => l.startsWith('ghr-ec2-'));
-  const config: Partial<Ec2OverrideConfig> = {};
+  const config: Ec2OverrideConfig = {};
 
   for (const label of ec2Labels) {
     const [key, ...valueParts] = label.replace('ghr-ec2-', '').split(':');
