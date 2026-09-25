@@ -45,6 +45,8 @@ jobs:
     environment: release
     permissions:
       contents: read # for reading repository contents
+      pull-requests: write # for release-please-action to create and update pull requests
+      issues: write # for release-please-action to create and update issues
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
@@ -74,8 +76,6 @@ jobs:
       attestations: write # for actions/attest-build-provenance to write attestations
       artifact-metadata: write # for publishing linked container attestations
       packages: write # for publishing the scale-set service image to GHCR    
-      pull-requests: write # for release-please-action to create and update pull requests
-      issues: write # for release-please-action to create and update issues
     env:
       SCALE_SET_IMAGE: ghcr.io/${{ github.repository_owner }}/terraform-aws-github-runner-scale-set-service
       TAG_NAME: ${{ needs.release.outputs.tag_name }}
