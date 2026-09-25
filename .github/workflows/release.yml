@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     permissions:
-      contents: read # for reading repository contents
+      contents: write # for release-please-action to create releases and update changelogs
       pull-requests: write # for release-please-action to create and update pull requests
       issues: write # for release-please-action to create and update issues
     outputs:
